@@ -1,8 +1,8 @@
 import pandas as pd
-from game.ai_model import predict_computer_choice, add_player_choice, evaluate_model
+from game.ai_model import RockPaperScissorsAI
 
-# Track the accuracy of AI's predictions
-predicted_choices = []
+# Instantiate the AI model
+ai = RockPaperScissorsAI()
 
 def update_results(result_file, result):
     """Update the results of the game in a CSV file."""
@@ -20,7 +20,7 @@ def update_results(result_file, result):
         draws = 1
 
     # Get the current prediction accuracy from the AI model
-    accuracy = evaluate_model()
+    accuracy = ai.evaluate_model()
 
     # Create a new DataFrame row for the current game's result and AI accuracy
     new_row = pd.DataFrame([{
@@ -48,11 +48,11 @@ def update_results(result_file, result):
 
 def play_game(player_choice, result_file):
     """Main game logic to handle player and computer moves, and update the result."""
-    # Add player's choice to the AI training history
-    add_player_choice(player_choice)
+    # Add player's choice to the AI model
+    ai.add_player_choice(player_choice)
 
     # Predict the computer's next move using the AI model
-    computer_choice = predict_computer_choice()
+    computer_choice = ai.predict_computer_choice()
 
     # Determine the result of the game based on Rock-Paper-Scissors rules
     if player_choice == computer_choice:
@@ -63,9 +63,6 @@ def play_game(player_choice, result_file):
         result = 'win'
     else:
         result = 'lose'
-
-    # Track the predicted choices for evaluation
-    predicted_choices.append(computer_choice)
 
     # Update the game results in the CSV file
     update_results(result_file, result)
