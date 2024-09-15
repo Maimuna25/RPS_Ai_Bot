@@ -62,3 +62,5 @@ class RockPaperScissorsAI:
         accuracy = correct_predictions / (len(self.player_choices) - 1) if len(self.player_choices) > 1 else 0
 
         return accuracy
+
+
